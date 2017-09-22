@@ -1,6 +1,6 @@
 'use strict';
 
-
+require('dotenv').config();
 const express = require('express');
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -10,7 +10,7 @@ const pg = require('pg');
 
 
 
-const client = new pg.Client('postgres://localhost:5432/handle_me');
+const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 client.on('error', err => console.error(err));
 
@@ -70,7 +70,7 @@ app.get('/login/', function (request, response) {
       if (result.rows.length === 0) {
         client.query(
           'INSERT INTO users(user_name) VALUES ($1)',
-          [request.query.user_name],
+          [request.query.user_name]
         ) 
           .then (function () {
             client.query(
