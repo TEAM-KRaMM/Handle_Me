@@ -181,7 +181,6 @@
     margin: 0 auto;
     margin-bottom: 10%;
     margin-top: 3%;
-    justify-content: column;
 }
 
 .about-box{
@@ -193,4 +192,5 @@
 #about-p{
     color: white;
     font-size: 150%;
+    text-align: left;
 }
