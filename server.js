@@ -37,23 +37,18 @@ app.get("/git/*", getGit);
 }
 
 function getTwit (req, res){
-  console.log( 'Routing Twit request for', req.params[0] );
-  request.get({url:`https://twitter.com/users/username_available?username=${req.params[0]}`}, function(err,response){
-    console.log(response.headers.status)
+  request.get({url:`https://twitter.com/users/username_available?username=${req.params[0]}`},function(err,response){
     res.send(response)
   })
 }
 
 function getInst (req, res){
-  console.log( 'Routing Inst request for', req.params[0] );
   request.get({url:`https://www.instagram.com/${req.params[0]}`}, function(err,response){
-    console.log(response.statusCode)
     res.send(response)
   })
 }
 
 function getGit (req, res){
-  console.log( 'Routing Git request for', req.params[0] );
   request.get({
     url:`https://api.github.com/users/${req.params[0]}`,
     headers:{
@@ -61,22 +56,18 @@ function getGit (req, res){
     } 
   }
 , function(err,response){
-    console.log(response)
     res.send(response)
   })
 }
 
 // checks if user already exists, creates one if not and returns id
 app.get('/login/', function (request, response) {
-  console.log ("im here",request.query.user_name)
   client.query(
     `Select * FROM users WHERE user_name = $1`,
     [request.query.user_name]
   )
     .then(result => {
-      console.log("after select Query",result.rows)
       if (result.rows.length === 0) {
-        console.log ("new")
         client.query(
           'INSERT INTO users(user_name) VALUES ($1)',
           [request.query.user_name]
@@ -94,7 +85,6 @@ app.get('/login/', function (request, response) {
             console.log (e)
           })
       } else {
-        console.log (result.rows[0].user_id)
         sendResults(response, {userid: result.rows[0].user_id})
       }
 
@@ -105,14 +95,27 @@ app.get('/login/', function (request, response) {
 })
 
 app.post('/addFav', function (request, response) {
-  console.log(request.body)
-  console.log ( parseInt(request.body.user_id) )
   client.query(
     'INSERT INTO handles( users_id, handle_name) VALUES ($1, $2) ON CONFLICT DO NOTHING',
     [parseInt(request.body.user_id), request.body.user_name]
   )
   .then(function (res) {
     sendResults(response,{messege:'done'})
+  })
+})
+
+
+
+app.get('/Faves', function (request, response) {
+  client.query(
+    `SELECT * FROM handles 
+    INNER JOIN users
+      ON users.user_id=handles.users_id
+      WHERE users.user_id = $1`,
+    [parseInt(request.query.user_id)]
+  )
+  .then(function (res) {
+    sendResults(response,res.rows)
   })
 })
 

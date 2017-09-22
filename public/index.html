@@ -6,28 +6,28 @@
     <title> Handle Me </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/styles/base.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <link rel= "stylesheet" href="/vendor/vendorStyles/normalize.css">
+    <link rel="stylesheet" href="/styles/base.css">
     <link rel="stylesheet" href="/styles/modules.css">
-    <link rel="icon" href="/images/h-square.png" type="image/x-icon"/>
+
+    <link rel="icon" href="/vendor/images/h-square.png" type="image/x-icon"/>
 
 </head>
 
 <body>
-  <div>
+  <div id="shadow">
   <!--          Survey Section          -->
 
 
 
   <section class="hide survey">
 
-    <div id="handle-survey">Handle Me Survey<span class="exclaimCircle">!</span></div>
-
+    <div id="title-survey">Handle Me Survey<span id="exclaimCircle">!</span></div>
 
     <form id = "login">
-      <label>First Name:</label>
-      <input type="text" name="firstname" placeholder="Optional"><br>
+      <input type="text" name="firstname" placeholder="your Username"><br>
     </form>
 
     <div id="survey-box">
@@ -35,20 +35,20 @@
         <label>Chose your favorite topic: </label>
         <select name="Favorite Topic">
             <option value="" disabled selected>Select Your Option</option>
-            <option value="sl=sports">Sports</option>
-            <option value="sl=science">Science</option>
-            <option value="sl=nature">Nature</option>
-            <option value="sl=art">Art</option>
-            <option value="sl=food">Food</option>
+            <option value="rel_jjb=sports">Sports</option>
+            <option value="rel_jjb=science">Science</option>
+            <option value="rel_jjb=nature">Nature</option>
+            <option value="rel_jjb=art">Art</option>
+            <option value="rel_jjb=food">Food</option>
         </select><br>
         <label>Chose your current mood:</label>
         <select name="Current Mood">
             <option value="" disabled selected>Select Your Option</option>
-            <option value="rel_trg=blissful">Blissful</option>
-            <option value="rel_trg=curious">Curious</option>
-            <option value="rel_trg=blah">Blah</option>
-            <option value="rel_trg=weird">Weird</option>
-            <option value="rel_trg=chilled">Chilled</option>
+            <option value="rel_jja=blissful">Blissful</option>
+            <option value="rel_jja=curious">Curious</option>
+            <option value="rel_jja=blah">Blah</option>
+            <option value="rel_jja=weird">Weird</option>
+            <option value="rel_jja=chilled">Chilled</option>
         </select><br>
         <label>How would your friends describe you:</label>
         <select  id="bottom-select" name="Personality Trait">
@@ -70,61 +70,68 @@
 
   <div id="blackBar"></div>
   <section class="hide generator">
+
+  <div style="padding:25px"></div>
+
+
+
     
     <h1 id="yourHandle">Your Handle<span class="exclaimCircle">!</span></h1>
-    <div id="availability-box"> This is your social media check box</div>
-
-    <div>
-      <span id="checkGit"></span>
-      <span id="checkTwit"></span>
-      <span id="checkInst"></span>
-    </div>
+    
 
     <h3 class="slots" id="sort">
-      <!-- DONE TODO: remove line breaks in between span elements, otherwise they will have a small gap between them -->
       <span id="slot1"></span><span id="slot2"></span><span id="slot3"></span>
     </h3>
 
-    <div class="buttons">
-      <span id="re-roll">Re-Roll!</span>
-      </div>
-
-    <div class="buttons">
-      <span id="addFav">addFav</span>
-    </div>
+    <div class="buttons" ><span id="re-roll">Re-Roll</span></div>
+    <div class="buttons" ><span id="addFav">Favorite</span></div>
 
     <form>
-      <label>Concatenation Options</label>
         <select id="concatOptions" name="Concatenation Options">
-            <option value="" disabled selected>Select Your Option</option>
+            <option value="" disabled selected>Concatenation Options</option>
             <option value="none">None</option>
             <option value="camelCase">CamelCase</option>
             <option value="snakeCase">Snake_Case</option>
             <option value="hyphenated">-Hyphenated-</option>
-        </select><br>
+        </select>
     </form>
+
+    <div id="flex-wrapper">
+
+    <ul id="faveDisplay"></ul>
+
+    <ul id="availability-box">
+       <li> Twitter:<span id="checkTwit"></span></li>
+       <li> Instagram:<span id="checkInst"></span></li>
+       <li> GitHub:<span id="checkGit"></span></li>
+    </ul>
+
+    </div>
   </section>
 
 <!--              About Section                  -->
 <section class="hide about">
-  <h1 id="about-kramm">About KRaMM!</h1>
+  <h1 id="about-kramm">About Handle Me</h1>
   <div class="about-box">
-    <ul class="right">
-    <li id="kate">Kate is a molecular biologist, turned Mom, turned web developer.</li> 
-    <li id="robin">Robin: ~~Perfect Brain~~ ~~Extremely Wise~~ ~~Respectful to All~~</li>
-    </ul>
-  <ul class="left">
-    <li id="maryus">Maryus blah blah blah blah blah blah blah blah blah</li> 
-    <li id="morgan">Morgan is a junior developer from Colorado who is looking forward to halloween.</li>
-    </ul>
+    <p id="about-p">Have you come to a creative roadblock while trying to think of a username? Are all of the good ones taken?
+      Team KRaMM designed this website with you in mind! Answer the survey questions to generate a personal username! Handle Me has many 
+      features. The most useful ones for making the username personal would be the save and drag features. Click once on a slot to 
+      keep it in line while still generating new words around it. Click on it again to unsave it.
+      The dragging option allows you to chose the way the words are organized and displayed on the screen.
+      Another personalization feature we have would be the way the username is concated together. Choose from Snake_Case, CamelCase,
+      and -Hyphenated-. Something unique to our Handle Me website would be showing the availability of the username. We check Instagram,
+      Twitter, and Github for you! You don't even have to leave out site to know if it's been used already! How Cool!!
+      Click <a href="https://handle-me.herokuapp.com/">HERE</a> to return back to the homepage! Get started and remember to have fun!
+    </p>
   </div>
 </section>
 
 </div>
+
 <footer>
     &copy; 2017 Alchemy Code Lab | Handle Me | <span id="about-route">About</span>
     <!-- <span id='about'> About</span>  -->
-  </footer>
+</footer>
 
   <script src="vendor/vendorScripts/jquery-3.2.1.js"></script>
   <script src="vendor/vendorScripts/jquery-ui.min.js"></script>

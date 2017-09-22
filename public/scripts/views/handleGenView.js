@@ -2,49 +2,48 @@
 
 var app = app || {};
 
-(function (module){
+(function (module) {
 
-  const genView= {};
+  const genView = {};
 
-  genView.appendSocial = function(){
+  genView.appendSocial = function () {
     app.words.checkInst()
     app.words.checkGit()
     app.words.checkTwit()
   }
 
-  genView.init = function (){ 
-
+  genView.init = function () {
     $('.generator').show().siblings().hide();
     genView.populateSlots();
   };
 
   //  This function will repopulate slots when user clicks re-roll button
-  $('#re-roll').click(function(){
+  $('#re-roll').click(function () {
     app.genView.populateSlots()
   });
 
   // Concat options listener
-  $('#concatOptions').on('change', function() {
+  $('#concatOptions').on('change', function () {
     app.words.concatType = this.value;
     app.genView.updateCurrentHandle();
   })
 
   // Append our app.words.slotArray to the DOM
   genView.appendWords = function () {
-    app.words.slotArray.forEach( function ( arrayEle, currentIndex, array) {
-      let idName = '#slot' + (currentIndex+1);
+    app.words.slotArray.forEach(function (arrayEle, currentIndex, array) {
+      let idName = '#slot' + (currentIndex + 1);
 
-         if ( $(idName).attr('data-saved') !== 'true' ) { $(idName).text(arrayEle); }
+      if ($(idName).attr('data-saved') !== 'true') { $(idName).text(arrayEle); }
 
       //Update currentHandle variable
       genView.updateCurrentHandle();
 
       //Add event listener to toggle "data-saved" status
       $(idName).off('click');
-      $(idName).on('click',function(){
-        $(idName).attr('data-saved') === 'true' ? $(idName).attr('data-saved', false) : $(idName).attr('data-saved', true); 
-        console.log(idName,'is clicked. data-saved value is',$(idName).attr('data-saved'))
-        })
+      $(idName).on('click', function () {
+        $(idName).attr('data-saved') === 'true' ? $(idName).attr('data-saved', false) : $(idName).attr('data-saved', true);
+        console.log(idName, 'is clicked. data-saved value is', $(idName).attr('data-saved'))
+      })
 
     });
   }
@@ -54,41 +53,43 @@ var app = app || {};
     app.words.currentHandle = '';
 
     //TODO: Add comments so this shit makes sense
-    for (let i = 0; i < $('.slots').children().length; i++){
-       switch (app.words.concatType) {
+    for (let i = 0; i < $('.slots').children().length; i++) {
+      switch (app.words.concatType) {
         case 'camelCase':
           if (i > 0) {
             let newElement = $('.slots').children().eq(i).text().split('');
             newElement[0] = newElement[0].toUpperCase();
             app.words.currentHandle += newElement.join('');
             break;
-          } 
+          }
         case 'hyphenated':
           if (i > 0) {
             app.words.currentHandle += '-' + $('.slots').children().eq(i).text();
             break;
-          } 
+          }
         case 'snakeCase':
           if (i > 0) {
             app.words.currentHandle += '_' + $('.slots').children().eq(i).text();
             break;
-          } 
+          }
         case 'none':
-        app.words.currentHandle += $('.slots').children().eq(i).text(); 
-      } 
-  }
+          app.words.currentHandle += $('.slots').children().eq(i).text();
+      }
+    }
 
     // CurrentHandle appends to DOM
     $('#yourHandle').text(app.words.currentHandle);
   }
 
   // Poplate all slots
-  genView.populateSlots = function() {
+  genView.populateSlots = function () {
     app.words.randomizeAll()
     genView.appendWords()
+    genView.appendSocial()
+    app.words.populateFaves()
   }
-  
-module.genView = genView
+
+  module.genView = genView
 
 })(app);
 

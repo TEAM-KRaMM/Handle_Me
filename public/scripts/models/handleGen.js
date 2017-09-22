@@ -23,8 +23,7 @@ var app = app || {};
   ////            DATABASE STUFF      ////
   
 
-  $('#login').submit(function(){
-    event.preventDefault()
+  $('#survey-submit').click(function(){
     words.username = $('#login input').val();
     console.log(words.username);
     $.get('/login/', {user_name: words.username}) 
@@ -41,8 +40,22 @@ var app = app || {};
     event.preventDefault()
     console.log(words.userID)
   $.post('/addFav/', {user_id:words.userID, user_name: words.currentHandle }) 
+  app.words.populateFaves()
 
   })
+
+  words.populateFaves = function(){
+  
+    $.get('/Faves/', {user_id:words.userID}) 
+  .then (function (data) {
+    console.log(data)
+    $('#faveDisplay').empty()
+    data.forEach(function(value){
+      $('#faveDisplay').append(`<li>${value.handle_name}</li>`)
+    })
+    })
+  }
+  
 
 
   ///           front end STUFF         ////
@@ -63,6 +76,7 @@ var app = app || {};
     });
 
     //Initiates the routes
+    // page('/gen/'); Will make back button work but will break refresh
     app.genControl.init();
   });
 
@@ -115,23 +129,21 @@ var app = app || {};
   
   // API 2
 
-  words.availability = '';
 
 
   words.checkTwit = function(){
     $.get('/twit/' + words.currentHandle)
           .then ( function(data) {
-            console.log(data)
-          words.twitStatus = JSON.parse(data.body).reason;
+          words.twitStatus = JSON.parse(data.body).msg;
           $('#checkTwit').text(words.twitStatus)
-          console.log('words.availability:',words.currentHandle,words.availability)
+          console.log('words.Twitstatus:',words.currentHandle,words.twitStatus)
        })
      }
 
   words.checkInst = function(){
     $.get('/inst/' + words.currentHandle)
       .then ( function(data) {
-      data.statusCode === 404 ? words.instStatus =  "availible!" :  words.instStatus = "taken :(";
+      data.statusCode === 404 ? words.instStatus = 'availible!' :  words.instStatus = 'taken:(';
       $('#checkInst').text(words.instStatus);
       console.log('words.instStatus:',words.currentHandle,words.instStatus)
       
@@ -142,9 +154,9 @@ var app = app || {};
   words.checkGit = function(){
     $.get('/git/' + words.currentHandle)
       .then ( function(data) {
-        JSON.parse(data.body).message == "Not Found" ? words.gitStatus =  "availible!" :  words.gitStatus = "taken :(";
+        JSON.parse(data.body).message == "Not Found" ? words.gitStatus =  'availible!' :  words.gitStatus = 'taken :(';
         $('#checkGit').text(words.gitStatus)
-      console.log('words.gitStatus:',words.currentHandle,words.instStatus)
+      console.log('words.gitStatus:',words.currentHandle,words.gitStatus)
       })
   }
 
