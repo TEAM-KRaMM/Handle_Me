@@ -10,7 +10,7 @@ const pg = require('pg');
 
 
 
-const client = new pg.Client('postgres://localhost:5432/handle_me');
+const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 client.on('error', err => console.error(err));
 
@@ -79,7 +79,7 @@ app.get('/login/', function (request, response) {
         console.log ("new")
         client.query(
           'INSERT INTO users(user_name) VALUES ($1)',
-          [request.query.user_name],
+          [request.query.user_name]
         ) 
           .then (function () {
             client.query(
